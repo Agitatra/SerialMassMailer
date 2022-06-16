@@ -1,10 +1,6 @@
 package de.mk_p.serialmassmailer;
 
-import sun.tools.tree.BitOrExpression;
-
 import javax.mail.Message;
-import javax.mail.internet.InternetAddress;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -31,7 +27,7 @@ public class Recipient {
     }
 
     public Recipient (String recipientString) {
-        Matcher addrMatch = Constants.RECTYPEPATTERN.matcher(recipientString);
+        Matcher addrMatch = Util.RECTYPEPATTERN.matcher(recipientString);
         properties = new HashMap <> ();
         if (addrMatch.matches()) {
             String type =         addrMatch.group(1);
@@ -49,14 +45,18 @@ public class Recipient {
                 this.type = Message.RecipientType.TO;
             this.address = address;
             if (propFileName != null) {
+                String myPropFileName = (Util.hasFilenameSuffix (propFileName)) ? propFileName
+                                                                                : propFileName + ".properties";
                 try {
                     Properties props = new Properties ();
-                    props.load (new FileReader (propFileName));
+                    props.load (new FileReader (myPropFileName));
                     Set <String> keys = props.stringPropertyNames ();
                     for (String key: props.stringPropertyNames ())
                         properties.put (key, props.getProperty (key));
                 }
                 catch (IOException fnfe) {
+                    System.out.println ("Error: \"" + fnfe.getMessage () + "\" reading property file \"" +
+                                        myPropFileName + "\"");
                     // Error reading properties, no properties are processed
                 }
             }

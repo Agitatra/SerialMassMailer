@@ -23,8 +23,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.AlgorithmParameterSpec;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.commons.text.StringSubstitutor;
 
@@ -34,103 +32,89 @@ import org.apache.commons.text.StringSubstitutor;
  */
 public class EmailWorker {
 
-    private static final int     INIVECSIZ =        12;
-    private static final String  RND =              "0C2dSmlALfRu98+iE7Iy4U3USyvLF54Aa7b7NXq9QZE=";
-    private static final String  MAILHOST =         "smtp.gmail.com";
-    private static final String  USERNAME =         null;
-    private static final String  PASSWORD =         null;
-    private static final String  HOST =             "host";
-    private static final String  USER =             "user";
-    private static final String  PORT =             "port";
-    private static final String  AUTH =             "auth";
-    private static final String  TRUST =            "trust";
-    private static final String  TAGMAILHOST =      "mailhost";
-    private static final String  TAGUSERNAME =      "username";
-    private static final String  TAGPASSWORD =      "password";
-    private static final String  SMTP =             "smtp";
-    private static final String  SMTPS =            "smtps";
-    private static final String  POP3S =            "pop3s";
-    private static final String  MAIL =             "mail";
-    private static final String  TRUE =             "true";
-    private static final String  FALSE =            "false";
-    private static final String  DEBUG =            "debug";
-    private static final String  SSL =              "ssl";
-    private static final String  STARTTLS =         "starttls";
-    private static final String  COMSUNMAILPOP3 =   "com.sun.mail.pop3";
-    private static final String  COMSUNMAILSMTP =   "com.sun.mail.smtp";
-    private static final String  PROTOCOL =         "protocol";
-    private static final String  PROTOCOLS =        "protocols";
-    private static final String  TRANSPORT =        "transport";
-    private static final String  SOCKETFACTORY =    "socketfactory";
-    private static final String  SSLSOCKETFACTORY = ".SSLSocketFactory";
-    private static final String  CLASS =            ".class";
-    private static final String  JAVAXNET =         "javax.net.";
-    private static final String  ENABLE =           "enable";
-    private static final String  PORT995 =          "995";
-    private static final String  PGPMAGIG =         Base64.getEncoder ().encodeToString (new byte [] {(byte) 0x85, (byte) 0x03, (byte) 0x0e, (byte) 0x03});
-    private static final Map <String, Map <String, String>> variables = new HashMap <> ();
+    private static final int INIVECSIZ = 12;
+    private static final String RND = "0C2dSmlALfRu98+iE7Iy4U3USyvLF54Aa7b7NXq9QZE=";
+    private static final String MAILHOST = "smtp.gmail.com";
+    private static final String USERNAME = null;
+    private static final String PASSWORD = null;
+    private static final String HOST = "host";
+    private static final String USER = "user";
+    private static final String PORT = "port";
+    private static final String AUTH = "auth";
+    private static final String TRUST = "trust";
+    private static final String TAGMAILHOST = "mailhost";
+    private static final String TAGUSERNAME = "username";
+    private static final String TAGPASSWORD = "password";
+    private static final String SMTP = "smtp";
+    private static final String SMTPS = "smtps";
+    private static final String POP3S = "pop3s";
+    private static final String MAIL = "mail";
+    private static final String TRUE = "true";
+    private static final String FALSE = "false";
+    private static final String DEBUG = "debug";
+    private static final String SSL = "ssl";
+    private static final String STARTTLS = "starttls";
+    private static final String COMSUNMAILPOP3 = "com.sun.mail.pop3";
+    private static final String COMSUNMAILSMTP = "com.sun.mail.smtp";
+    private static final String PROTOCOL = "protocol";
+    private static final String PROTOCOLS = "protocols";
+    private static final String TRANSPORT = "transport";
+    private static final String SOCKETFACTORY = "socketfactory";
+    private static final String SSLSOCKETFACTORY = ".SSLSocketFactory";
+    private static final String CLASS = ".class";
+    private static final String JAVAXNET = "javax.net.";
+    private static final String ENABLE = "enable";
+    private static final String PORT995 = "995";
+    private static final String PGPMAGIG = Base64.getEncoder ().encodeToString (new byte[] {(byte) 0x85, (byte) 0x03, (byte) 0x0e, (byte) 0x03});
 
-    public static StringBuilder variableInterpolation (StringBuilder content, String recipient) {
-        Map <String, String> values = variables.get (recipient);
-        if ((values == null) || values.size() <= 0)
+    public static StringBuilder variableInterpolation (StringBuilder content, Map <String, String> values) {
+        if ((values == null) || values.size () <= 0)
             return (content);
         else {
-            StringSubstitutor interpolator = new StringSubstitutor(values);
-            return (new StringBuilder(interpolator.replace(content)));
+            StringSubstitutor interpolator = new StringSubstitutor (values);
+            return (new StringBuilder (interpolator.replace (content)));
         }
     }
 
-    private static Message addRecipient (Session session, String recipient) throws MessagingException {
+    private static Message addRecipient (Session session, String recipientStr, StringBuilder content, String key,
+                                         boolean htmlMail, Multipart multipart) throws MessagingException {
         Message msg = new MimeMessage (session);
-        Matcher addrMatch = Constants.RECTYPEPATTERN.matcher (recipient);
-        if (addrMatch.matches ()) {
-            String  group0 =    addrMatch.group (1);
-            String  group1 =    addrMatch.group (2);
-            if ((group0 == null) || (group0.length () <= 0) || group0.equalsIgnoreCase ("to"))
-                msg.addRecipient (Message.RecipientType.TO, new InternetAddress (group1));
-            else if (group0.equalsIgnoreCase ("cc"))
-                msg.addRecipient (Message.RecipientType.CC, new InternetAddress (group1));
-            else if (group0.equalsIgnoreCase ("bcc"))
-                msg.addRecipient (Message.RecipientType.BCC, new InternetAddress (group1));
-            else
-                msg.addRecipient (Message.RecipientType.TO, new InternetAddress (group1));
-        }
-        else
-            msg.addRecipient (Message.RecipientType.TO, new InternetAddress (recipient));
-        return (msg);
-    }
-
-    private Message createdMultipart (Session session, String recipient, String originatorAddr, String subject,
-                                      StringBuilder content, boolean htmlMail, DataSource [] attachments,
-                                      boolean debug, String key)
-                              throws MessagingException {
-        Message msg;
-
-        Multipart multipart = new MimeMultipart ();
-        for (int i = 0; (attachments != null) && (i < attachments.length); i++) {
-            BodyPart attachmentBodyPart = new MimeBodyPart ();
-            attachmentBodyPart.setDataHandler (new DataHandler (attachments [i]));
-            System.out.println ("using: \"" + attachments [i].getName () + "\" as attachment");
-            attachmentBodyPart.setFileName (attachments [i].getName ());
-            multipart.addBodyPart (attachmentBodyPart);
-        }
+        Recipient recipient = new Recipient (recipientStr);
         // Create the HTML Part
         BodyPart bodyPart = new MimeBodyPart ();
-        content = variableInterpolation (content, recipient);
+        content = variableInterpolation (content, recipient.getProperties ());
         if (key != null) {
             try {
                 content = AES256encrypt (key, content);
             }
             catch (BadPaddingException | NoSuchAlgorithmException | NoSuchPaddingException |
-                     InvalidAlgorithmParameterException | IllegalBlockSizeException |
-                    InvalidKeyException e) {
+                   InvalidAlgorithmParameterException | IllegalBlockSizeException |
+                   InvalidKeyException e) {
                 System.out.println ("Error: \"" + e.getMessage () + "\" encrypting message, sending it unencrypted");
             }
         }
         bodyPart.setContent (content.toString (), (htmlMail) ? "text/html" : "text/text");
         multipart.addBodyPart (bodyPart);
-        msg = addRecipient (session, recipient);
         msg.setContent (multipart);
+        msg.addRecipient (recipient.getType (), new InternetAddress (recipient.getAddress ()));
+        return (msg);
+    }
+
+    private Message createdMultipart (Session session, String recipient, String originatorAddr, String subject,
+                                      StringBuilder content, boolean htmlMail, DataSource[] attachments,
+                                      boolean debug, String key)
+            throws MessagingException {
+        Message msg;
+
+        Multipart multipart = new MimeMultipart ();
+        for (int i = 0; (attachments != null) && (i < attachments.length); i++) {
+            BodyPart attachmentBodyPart = new MimeBodyPart ();
+            attachmentBodyPart.setDataHandler (new DataHandler (attachments[i]));
+            System.out.println ("using: \"" + attachments[i].getName () + "\" as attachment");
+            attachmentBodyPart.setFileName (attachments[i].getName ());
+            multipart.addBodyPart (attachmentBodyPart);
+        }
+        msg = addRecipient (session, recipient, content, key, htmlMail, multipart);
         session.setDebug (debug);
         msg.setFrom (new InternetAddress (originatorAddr));
         msg.setSubject (subject);
@@ -138,26 +122,25 @@ public class EmailWorker {
         return (msg);
     }
 
-    private Message [] createdMultipart (Session session, String [] recipientAddrs, String originatorAddr, String subject,
-                                         StringBuilder content, boolean htmlMail, DataSource [] attachments,
-                                         boolean debug, String key)
-                                 throws MessagingException {
+    private Message[] createdMultipart (Session session, String[] recipientAddrs, String originatorAddr, String subject,
+                                        StringBuilder content, boolean htmlMail, DataSource[] attachments,
+                                        boolean debug, String key)
+            throws MessagingException {
         List <Message> messages = new ArrayList <> ();
 
-        for (String recipient: recipientAddrs) {
+        for (String recipient : recipientAddrs) {
             messages.add (createdMultipart (session, recipient, originatorAddr, subject, content, htmlMail, attachments,
-                                            debug, key));
+                    debug, key));
         }
-        return (messages.toArray(new Message [] {}));
+        return (messages.toArray (new Message[] {}));
     }
 
-    public void sendSmtpAuthAfterStartTls (String [] recipientAddrs, String originatorAddr, String subject,
-                                           StringBuilder content, boolean htmlMail, DataSource [] attachments,
-                                           Properties config, boolean unsecure, boolean debug, String key)
-                                           throws MessagingException  {
-        Session          session;
-        Properties       props = System.getProperties ();
-        Authenticator    auth;
+    public void sendSmtpAuthAfterStartTls (String[] recipientAddrs, String originatorAddr, String subject,
+                                           StringBuilder content, boolean htmlMail, DataSource[] attachments,
+                                           Properties config, boolean unsecure, boolean debug, String key) throws MessagingException {
+        Session session;
+        Properties props = System.getProperties ();
+        Authenticator auth;
         final Properties myConfig;
 
         if (config == null) {
@@ -174,32 +157,46 @@ public class EmailWorker {
                 return (new PasswordAuthentication (myConfig.getProperty (TAGUSERNAME), myConfig.getProperty (TAGPASSWORD)));
             }
         };
-        props.setProperty (MAIL + "." + SMTP + "." + HOST,              myConfig.getProperty (TAGMAILHOST));
-        props.setProperty (MAIL + "." + TRANSPORT + "." + PROTOCOL,     SMTPS);
-        props.setProperty (MAIL + "." + SMTP + "." + AUTH,              TRUE);
+        props.setProperty (MAIL + "." + SMTP + "." + HOST, myConfig.getProperty (TAGMAILHOST));
+        props.setProperty (MAIL + "." + TRANSPORT + "." + PROTOCOL, SMTPS);
+        props.setProperty (MAIL + "." + SMTP + "." + AUTH, TRUE);
         props.setProperty (MAIL + "." + SMTP + "." + PORT, "25");
         if (!unsecure) {
             props.setProperty (MAIL + "." + SMTP + "." + STARTTLS + "." + ENABLE, TRUE);
-            props.setProperty (MAIL + "." + SMTP + "." + SSL + "." + TRUST,       myConfig.getProperty (TAGMAILHOST));
-            props.setProperty (MAIL + "." + SMTP + "." + STARTTLS + ".required",  TRUE);
+            props.setProperty (MAIL + "." + SMTP + "." + SSL + "." + TRUST, myConfig.getProperty (TAGMAILHOST));
+            props.setProperty (MAIL + "." + SMTP + "." + STARTTLS + ".required", TRUE);
         }
         if (debug) {
             props.setProperty (MAIL + "." + DEBUG, TRUE);
-            props.setProperty (COMSUNMAILSMTP,     DEBUG);
+            props.setProperty (COMSUNMAILSMTP, DEBUG);
         }
         session = Session.getDefaultInstance (props, auth);
-        for (Message msg: createdMultipart (session, recipientAddrs, originatorAddr, subject, content, htmlMail,
-                                            attachments, debug, key))
-            Transport.send (msg);
+        for (Message msg : createdMultipart (session, recipientAddrs, originatorAddr, subject, content, htmlMail,
+                attachments, debug, key))
+            try {
+                Transport.send (msg);
+            }
+            catch (MessagingException me) {
+                System.out.print ("Error: \"" + me.getMessage () + "\" sending e-mail to: ");
+                try {
+                    for (Address recipient : msg.getAllRecipients ())
+                        System.out.print ("\"" + recipient.toString () + "\"");
+                }
+                catch (MessagingException e) {
+                    // Error during messaging an error
+                }
+                System.out.println ();
+            }
     }
+
 
     public void sendSmtps (String [] recipientAddrs, String originatorAddr, String subject, StringBuilder content,
                            boolean htmlMail, DataSource [] attachments, Properties config, boolean debug, String key)
-                    throws MessagingException {
+            throws MessagingException {
 
-        Session          session;
-        Properties       props =            System.getProperties ();
-        Transport        transport;
+        Session session;
+        Properties props = System.getProperties ();
+        Transport transport;
         final Properties myConfig;
 
         if (config == null) {
@@ -211,28 +208,44 @@ public class EmailWorker {
         else
             myConfig = config;
 
-        props.setProperty (MAIL + "." + SMTP + "." + HOST,                   myConfig.getProperty (TAGMAILHOST));
-        props.setProperty (MAIL + "." + TRANSPORT + "." + PROTOCOL,          SMTPS);
-        props.setProperty (MAIL + "." + SMTP + "." + AUTH,                   TRUE);
-        props.setProperty (MAIL + "." + SMTPS + "." + AUTH,                  TRUE);
-        props.setProperty (MAIL + "." + SMTPS + "." + PORT,                  "465");
-        props.setProperty (MAIL + "." + SMTPS + "." + SSL + "." + TRUST,     myConfig.getProperty (TAGMAILHOST));
-        props.setProperty (MAIL + "." + SMTPS + "." + SSL + "." + ENABLE,    TRUE);
+        props.setProperty (MAIL + "." + SMTP + "." + HOST, myConfig.getProperty (TAGMAILHOST));
+        props.setProperty (MAIL + "." + TRANSPORT + "." + PROTOCOL, SMTPS);
+        props.setProperty (MAIL + "." + SMTP + "." + AUTH, TRUE);
+        props.setProperty (MAIL + "." + SMTPS + "." + AUTH, TRUE);
+        props.setProperty (MAIL + "." + SMTPS + "." + PORT, "465");
+        props.setProperty (MAIL + "." + SMTPS + "." + SSL + "." + TRUST, myConfig.getProperty (TAGMAILHOST));
+        props.setProperty (MAIL + "." + SMTPS + "." + SSL + "." + ENABLE, TRUE);
         props.setProperty (MAIL + "." + SMTPS + "." + SSL + "." + PROTOCOLS, "TLSv1.1 TLSv1.2");
         if (debug) {
             props.setProperty (MAIL + "." + DEBUG, TRUE);
-            props.setProperty (COMSUNMAILSMTP,     DEBUG);
+            props.setProperty (COMSUNMAILSMTP, DEBUG);
         }
         session = Session.getInstance (props, null);
         session.setDebug (true);
         transport = session.getTransport (SMTPS);
         transport.connect (myConfig.getProperty (TAGMAILHOST), myConfig.getProperty (TAGUSERNAME), myConfig.getProperty (TAGPASSWORD));
-        for (Message msg: createdMultipart (session, recipientAddrs, originatorAddr, subject, content, htmlMail,
-                                            attachments, debug, key))
-            transport.sendMessage (msg, msg.getAllRecipients ());
+        for (Message msg : createdMultipart (session, recipientAddrs, originatorAddr, subject, content, htmlMail,
+                           attachments, debug, key))
+            try {
+                transport.sendMessage (msg, msg.getAllRecipients ());
+            }
+            catch (MessagingException me) {
+                System.out.print ("Error: \"" + me.getMessage () + "sending e-mail to: ");
+                try {
+                    for (Address recipient : msg.getAllRecipients ())
+                        System.out.print ("\"" + recipient.toString () + "\"");
+                }
+                catch (MessagingException e) {
+                    // Error during messaging an error
+                }
+                System.out.println ();
+            }
     }
 
-    public StringBuilder AES256encrypt (String key, StringBuilder content) throws NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, NoSuchPaddingException, InvalidAlgorithmParameterException, BadPaddingException {
+        public static StringBuilder AES256encrypt (String key, StringBuilder content)
+                                       throws NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException,
+                                              NoSuchPaddingException, InvalidAlgorithmParameterException,
+                                              BadPaddingException {
         byte []          initVect =     new byte [INIVECSIZ];
         byte []          cipherContent;
         byte []          cipherContentMessage;

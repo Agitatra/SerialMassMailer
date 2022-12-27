@@ -2,7 +2,7 @@ target
 javadoc
 mailconfig.properties
 *.jar
-*.txt
+*.txt~
 *.html
 *.jp*g
 .idea

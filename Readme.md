@@ -1,4 +1,4 @@
-# EmailWorker: Mini Java E-Mail Client
+# SerialMassMailer: Mini Java E-Mail Client
 
 This is a very simple Java-E-Mail Client
 

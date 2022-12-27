@@ -1,0 +1,5 @@
+pp@pille-palle.de	Pille	Ppalle	man
+bcc: ap@p-pille.biz	Agitatra	Propagandist	woman
+cc:pp@pille-pallle.de	Pille	Palle	sir
+to ap@p-pille.biz	Agitatra	Propagandist	madam
+BCC:pp@pille-palle.de	Pillei	Palle	friend

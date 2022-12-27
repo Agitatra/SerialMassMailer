@@ -1,0 +1,3 @@
+Dear ${title:-} ${firstname:-friend} ${surname:-},
+please be advised: this is an e-mail.
+${salutation:-Yours sincerely} ${sender:-an e-mail sender}

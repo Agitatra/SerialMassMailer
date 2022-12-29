@@ -53,11 +53,11 @@ However, the information provided can also be enriched with additional informati
 - name of a Java property file
 
 The type is used to determine how to send the message.
-First- and surname are stored in the variables ${firstname} and ${surname} respectively.
+First- and surname are stored in the variables "${firstname}" and "${surname}" respectively.
 ### Variables/properties
 The template file for the message, as provided by the "--file" parameter, may contain variable references in the fashion of bash-variables.
 The variables are replaced before a message is sent, by their respective properties, their possible defaults - provided in the reference, or ignored if no value is provided.
-Two properties (§{firstname} and ${surname}) get their values from the recipient line, the rest has to be stored in a Java properties files whose name is provided as the last parameter of the recipients line.
+Two properties (${firstname} and ${surname}) get their values from the recipient line, the rest has to be stored in a Java properties files whose name is provided as the last parameter of the recipients line.
 For further reference example templates: "mail.txt", "to.txt", "friend.properties", "woman.properties", "madame.properties", "man.properties" and "sir.properties" are part of the project.
 
 ## Required dependencies

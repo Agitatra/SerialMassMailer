@@ -72,7 +72,7 @@ The application requires the following Java-archives:
 - spring-web-4.3.5.RELEASE.jar
 
 ## Compilation
-Normally compilation should be executed using Maven, however if this is not an option, the following command will do:
+Normally the project should be compiled by Maven, however, if this is not an option, the following command will do:
 - javac.exe -Xlint:deprecation -cp .;mail-1.4.1.jar;java-getopt-1.0.13.jar;javax.servlet_3.0.0.v201112011016.jar;spring-context-4.3.5.RELEASE.jar;spring-web-4.3.5.RELEASE.jar;activation-1.1.1.jar  de/mk_p/serialmassmailer/EmailWorker.java
 
 ## Example

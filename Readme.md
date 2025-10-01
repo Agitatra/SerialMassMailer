@@ -4,44 +4,50 @@ This is a very simple Java-E-Mail Client
 
 ## Parameters
 The application takes the following parameters:
-- **-t recipient@address** (see --to).
-- **-R text-file-containing-recipients** (see --recipients-file).
-- **-s subject** (see --subject).
+- **-a attachment-file** (see --attachment).
+- **-c java.properties** (see --config).
+- **-d** (see --debug).
 - **-h** (see --html).
 - **-f message-filename** (see --file).
 - **-F sender@address** (see --from).
-- **-a attachment-file** (see --attachment).
-- **-c java.properties** (see --config).
 - **-r** (see --receive),
-- **-u name** (see --username).
 - **-p password** (see --password).
-- **-S (0|1|2)** (see --starttls).
-- **--to=recipient@address**
-The recipient (required unless --recipients-file is provided)
-- **--recipients-file=text-file-containing-recipients**
-A text-file containing one recipient per line (see section Recipient-File)
-- **--subject=subject**
-The subject (defaults to: "You hava mail").
+- **-R text-file-containing-recipients** (see --recipients-file).
+- **-s subject** (see --subject).
+- **-S** (see --strict-error-handling).
+- **-T (0|1|2)** (see --starttls).
+- **-t recipient@address** (see --to).
+- **-u name** (see --username).
+- **--attachment=attachment-file**
+A file containing an attachment.
+- **--config=java.properties**
+Java Properties file containing the mail-server configuration (defaults to application internal constants).
+Currently, three properties are supported: "MAILHOST", the name or ip-address of the mail-host, "USER" & "PASSWORD" the username and the password to identify to the mail-server.  The latter two parameters are only relevant for sending messages.
+- **--debug**
+Print debug messages, including the complete SMTP-protocol (defaults to: *false*).
 - **--html**
 The Message is in the HTML-format (defaults to: *false*).
 - **--file=message-filename**
 A file containing the message (defaults to *stdin*).
 The file may contain variables (see section Recipient-File).
 - **--from=sender@address**
-The sender (defaults to: *mk@mk-p.de*).
-- **--attachment=attachment-file**
-A file containing an attachment.
-- **--config=java.properties**
-Java Properties file containing the mail-server configuration (defaults to application internal constants).
-Currently, three properties are supported: "MAILHOST", the name or ip-address of the mail-host, "USER" & "PASSWORD" the username and the password to identify to the mail-server.  The latter two parameters are only relevant for sending messages.
-- **--receive**
-Receiving mails from server instead of sending it (defaults to *false* unless --username & --password are provided, requires --username & --password)
-- **--username=name**
-User for whom e-mails should be received (implies --receive, requires --password).
+The sender (defaults to: *noreply@default.default*).
 - **--password=password**
 Password of user for whom e-mails should be received (implies --receive, requires --username).
+- **--receive**
+Receiving mails from server instead of sending it (defaults to *false* unless --username & --password are provided, requires --username & --password)
+- **--recipients-file=text-file-containing-recipients**
+A text-file containing one recipient per line (see section Recipient-File)
 - **--starttls=(0|1|2)**
 E-mail is sent using TLS over port 465 ("2"), over port 25, using STARTTLS ("1") or without TLS ("0") (Defaults to TLS/2).
+- **--strict-error-handling**
+Do not continue after errors that only affect one recipient (defaults to: *false*). Normally when a recipient related error occurs only this recipient is discarded. 
+- **--subject=subject**
+The subject (defaults to: "You hava mail").
+- **--to=recipient@address**
+The recipient (required unless --recipients-file is provided)
+- **--username=name**
+User for whom e-mails should be received (implies --receive, requires --password).
 
 ## Recipient-File
 The recipient file is a text file containing the e-mail address of a recipient per line.

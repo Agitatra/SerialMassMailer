@@ -1,4 +1,5 @@
 target
+ChatControl
 javadoc
 mailconfig.properties
 *.jar

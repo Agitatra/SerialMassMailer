@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class Util {
     public static final Pattern RECTYPEPATTERN =
-                                Pattern.compile ("^(bcc|cc|to)?[: \t]*([^: \t]*)[: \t]*(([^\t]*)\t([^\t]*))?[: \t]*(.*)?$", Pattern.CASE_INSENSITIVE);
+                                Pattern.compile ("^(bcc|cc|to)?[: \t]*([^: \t]+)[: \t]*(([^\t]*)\t([^\t]*))?[: \t]*(.*)?$", Pattern.CASE_INSENSITIVE);
     public static final Pattern FILENAME_WITH_SUFFIX =
                                 Pattern.compile ("^.*\\.([^.]+)$", Pattern.CASE_INSENSITIVE);
 

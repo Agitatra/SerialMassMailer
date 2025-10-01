@@ -13,10 +13,13 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.mail.*;
 import javax.mail.internet.*;
 import java.io.*;
+import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
+import java.nio.charset.MalformedInputException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -65,7 +68,7 @@ public class EmailWorker {
     private static final String JAVAXNET = "javax.net.";
     private static final String ENABLE = "enable";
     private static final String PORT995 = "995";
-    private static final String PGPMAGIG = Base64.getEncoder ().encodeToString (new byte[] {(byte) 0x85, (byte) 0x03, (byte) 0x0e, (byte) 0x03});
+    private static final String PGPMAGIC = Base64.getEncoder ().encodeToString (new byte[] {(byte) 0x85, (byte) 0x03, (byte) 0x0e, (byte) 0x03});
 
     public static StringBuilder variableInterpolation (StringBuilder content, Map <String, String> values) {
         if ((values == null) || values.size () <= 0)
@@ -77,33 +80,33 @@ public class EmailWorker {
     }
 
     private static Message addRecipient (Session session, String recipientStr, StringBuilder content, String key,
-                                         boolean htmlMail, Multipart multipart) throws MessagingException {
-        Message msg = new MimeMessage (session);
-        Recipient recipient = new Recipient (recipientStr);
+                                         boolean htmlMail, Multipart multipart) throws MessagingException, RecipientDataException {
+        Recipient recipient = new Recipient(recipientStr);
+        Message msg = new MimeMessage(session);
         // Create the HTML Part
-        BodyPart bodyPart = new MimeBodyPart ();
-        content = variableInterpolation (content, recipient.getProperties ());
+        BodyPart bodyPart = new MimeBodyPart();
+        content = variableInterpolation(content, recipient.getProperties());
         if (key != null) {
             try {
-                content = AES256encrypt (key, content);
+                content = AES256encrypt(key, content);
             }
             catch (BadPaddingException | NoSuchAlgorithmException | NoSuchPaddingException |
                    InvalidAlgorithmParameterException | IllegalBlockSizeException |
                    InvalidKeyException e) {
-                System.out.println ("Error: \"" + e.getMessage () + "\" encrypting message, sending it unencrypted");
+                System.out.println("Error: \"" + e.getMessage() + "\" encrypting message, sending it unencrypted");
             }
         }
-        bodyPart.setContent (content.toString (), (htmlMail) ? "text/html" : "text/text");
-        multipart.addBodyPart (bodyPart);
-        msg.setContent (multipart);
-        msg.addRecipient (recipient.getType (), new InternetAddress (recipient.getAddress ()));
+        bodyPart.setContent(content.toString(), (htmlMail) ? "text/html" : "text/text");
+        multipart.addBodyPart(bodyPart);
+        msg.setContent(multipart);
+        msg.addRecipient(recipient.getType(), new InternetAddress(recipient.getAddress()));
         return (msg);
     }
 
     private Message createdMultipart (Session session, String recipient, String originatorAddr, String subject,
                                       StringBuilder content, boolean htmlMail, DataSource[] attachments,
                                       boolean debug, String key)
-            throws MessagingException {
+            throws MessagingException, RecipientDataException {
         Message msg;
 
         Multipart multipart = new MimeMultipart ();
@@ -124,20 +127,27 @@ public class EmailWorker {
 
     private Message[] createdMultipart (Session session, String[] recipientAddrs, String originatorAddr, String subject,
                                         StringBuilder content, boolean htmlMail, DataSource[] attachments,
-                                        boolean debug, String key)
-            throws MessagingException {
+                                        boolean debug, boolean strictErrorHandling, String key)
+            throws MessagingException, RecipientDataException {
         List <Message> messages = new ArrayList <> ();
 
         for (String recipient : recipientAddrs) {
-            messages.add (createdMultipart (session, recipient, originatorAddr, subject, content, htmlMail, attachments,
-                    debug, key));
+            try {
+                messages.add(createdMultipart(session, recipient, originatorAddr, subject, content, htmlMail, attachments,
+                             debug, key));
+            }
+            catch (RecipientDataException rde) {
+                if (strictErrorHandling)
+                    throw new RecipientDataException (rde.getRecipient());
+            }
         }
         return (messages.toArray (new Message[] {}));
     }
 
     public void sendSmtpAuthAfterStartTls (String[] recipientAddrs, String originatorAddr, String subject,
                                            StringBuilder content, boolean htmlMail, DataSource[] attachments,
-                                           Properties config, boolean unsecure, boolean debug, String key) throws MessagingException {
+                                           Properties config, boolean unsecure, boolean debug,
+                                           boolean strictErrorHandling, String key) throws MessagingException, RecipientDataException {
         Session session;
         Properties props = System.getProperties ();
         Authenticator auth;
@@ -172,7 +182,7 @@ public class EmailWorker {
         }
         session = Session.getDefaultInstance (props, auth);
         for (Message msg : createdMultipart (session, recipientAddrs, originatorAddr, subject, content, htmlMail,
-                attachments, debug, key))
+                                             attachments, debug, strictErrorHandling, key))
             try {
                 Transport.send (msg);
             }
@@ -191,8 +201,8 @@ public class EmailWorker {
 
 
     public void sendSmtps (String [] recipientAddrs, String originatorAddr, String subject, StringBuilder content,
-                           boolean htmlMail, DataSource [] attachments, Properties config, boolean debug, String key)
-            throws MessagingException {
+                           boolean htmlMail, DataSource [] attachments, Properties config,
+                           boolean debug, boolean strictErrorHandling, String key) throws MessagingException, RecipientDataException {
 
         Session session;
         Properties props = System.getProperties ();
@@ -221,11 +231,11 @@ public class EmailWorker {
             props.setProperty (COMSUNMAILSMTP, DEBUG);
         }
         session = Session.getInstance (props, null);
-        session.setDebug (true);
+        session.setDebug (debug);
         transport = session.getTransport (SMTPS);
         transport.connect (myConfig.getProperty (TAGMAILHOST), myConfig.getProperty (TAGUSERNAME), myConfig.getProperty (TAGPASSWORD));
         for (Message msg : createdMultipart (session, recipientAddrs, originatorAddr, subject, content, htmlMail,
-                           attachments, debug, key))
+                           attachments, debug, strictErrorHandling, key))
             try {
                 transport.sendMessage (msg, msg.getAllRecipients ());
             }
@@ -269,7 +279,7 @@ public class EmailWorker {
         byteBuffer.put (initVect);
         byteBuffer.put (cipherContent, initVect.length, cipherContent.length);
         cipherContentMessage = byteBuffer.array ();
-        retVal.append (PGPMAGIG);
+        retVal.append (PGPMAGIC);
         retVal.append ((Base64.getEncoder ().encodeToString (cipherContentMessage)));
         return (retVal);
     }
@@ -280,7 +290,7 @@ public class EmailWorker {
         StringBuilder           hashKey =       new StringBuilder (key);
         StringBuilder           retVal =        new StringBuilder ();
         Cipher                  cipher =        Cipher.getInstance ("AES/GCM/NoPadding");
-        byte []                 cipherContent = Base64.getDecoder().decode (cipherContentStr.substring (PGPMAGIG.length ()));
+        byte []                 cipherContent = Base64.getDecoder().decode (cipherContentStr.substring (PGPMAGIC.length ()));
         AlgorithmParameterSpec  gcmIv =         new GCMParameterSpec (128, cipherContent, 0, INIVECSIZ);
 
         hashKey.append (RND);
@@ -300,8 +310,8 @@ public class EmailWorker {
         Properties    properties = System.getProperties ();
         Store         store;
 
-	final String  innerUser =     user;
-	final String  innerPassword = password;
+        final String  innerUser =     user;
+        final String  innerPassword = password;
 
         if (config == null) {
             myConfig = new Properties ();
@@ -347,7 +357,9 @@ public class EmailWorker {
     }
 
     public static void main (String [] args) throws Exception {
+        boolean              cmdLineError =          false;
         boolean              debug =                 false;
+        boolean              strictErrorHandling =  false;
         boolean              htmlMail =              false;
         boolean              sendOrReceive =         true;
         int                  c;
@@ -370,6 +382,8 @@ public class EmailWorker {
         LongOpt []           longopts =              new LongOpt [] {
                                                          new LongOpt ("debug", LongOpt.NO_ARGUMENT,
                                                                       shortCommand, 'd'),
+                                                         new LongOpt ("strict-error-handling", LongOpt.NO_ARGUMENT,
+                                                                      shortCommand, 'S'),
                                                          new LongOpt ("to", LongOpt.REQUIRED_ARGUMENT,
                                                                       shortCommand, 't'),
                                                          new LongOpt ("recipients-file", LongOpt.REQUIRED_ARGUMENT,
@@ -391,15 +405,14 @@ public class EmailWorker {
                                                          new LongOpt ("subject", LongOpt.REQUIRED_ARGUMENT,
                                                                       shortCommand, 's'),
                                                          new LongOpt ("starttls", LongOpt.REQUIRED_ARGUMENT,
-                                                                      shortCommand, 'S'),
+                                                                      shortCommand, 'T'),
                                                          new LongOpt ("config-file", LongOpt.REQUIRED_ARGUMENT,
                                                                       shortCommand, 'c'),
                                                          new LongOpt ("username", LongOpt.REQUIRED_ARGUMENT,
                                                                       shortCommand, 'u')
         };
         Getopt               getOpt =                new Getopt(EmailWorker.class.getName (),
-                                                                args, "a:u:p:t:c:R:F:f:k:s:S:rhd", longopts);
-
+                                                                args, "a:u:p:t:c:R:F:f:k:s:T:rhdS", longopts);
         getOpt.setOpterr (false); // We'll do our own error handling
 
         for (c = cc = -1; (cc >= 0) || (c = getOpt.getopt ()) != -1;) {
@@ -426,6 +439,9 @@ public class EmailWorker {
                 case 'd':
                     debug = true;
                     break;
+                case 'i':
+                    strictErrorHandling = true;
+                    break;
                 case 'F':
                     from = getOpt.getOptarg ();
                     break;
@@ -433,9 +449,19 @@ public class EmailWorker {
                     try {
                         to = (Files.readAllLines (FileSystems.getDefault ().getPath (getOpt.getOptarg ())).toArray (new String [] {}));
                     }
-                    catch (FileNotFoundException fnfe) {
-                        fnfe.printStackTrace ();
-                        throw new RuntimeException (fnfe);
+                    catch (FileNotFoundException | NoSuchFileException fnfe) {
+                        System.err.println ("Recipients-file: \"" + getOpt.getOptarg () + "\" not found.");
+                        if (debug) {
+                            fnfe.printStackTrace();
+                        }
+                        cmdLineError = true;
+                    }
+                    catch (MalformedInputException mie) {
+                        System.err.println ("Recipients-file: \"" + getOpt.getOptarg () + "\" contains non UTF-8 characters.");
+                        if (debug) {
+                            mie.printStackTrace();
+                        }
+                        cmdLineError = true;
                     }
                     break;
                 case 'c':
@@ -443,9 +469,12 @@ public class EmailWorker {
                         config = new Properties ();
                         config.load (new FileReader (getOpt.getOptarg ()));
                     }
-                    catch (FileNotFoundException fnfe) {
-                        fnfe.printStackTrace ();
-                        throw new RuntimeException (fnfe);
+                    catch (FileNotFoundException | NoSuchFileException fnfe) {
+                        System.err.println ("Configuration-file: \"" + getOpt.getOptarg () + "\" not found.");
+                        if (debug) {
+                            fnfe.printStackTrace();
+                        }
+                        cmdLineError = true;
                     }
                     break;
                 case 'f':
@@ -453,8 +482,11 @@ public class EmailWorker {
                         contentReader = new BufferedReader (new FileReader (getOpt.getOptarg ()));
                     }
                     catch (FileNotFoundException fnfe) {
-                        fnfe.printStackTrace ();
-                        throw new RuntimeException (fnfe);
+                        System.err.println ("Message-file: \"" + getOpt.getOptarg () + "\" not found.");
+                        if (debug) {
+                            fnfe.printStackTrace();
+                        }
+                        cmdLineError = true;
                     }
                     break;
                 case 'S':
@@ -487,62 +519,78 @@ public class EmailWorker {
                     System.out.println ("using: \"" + attachment.getName () + "\" as attachment: \"" + getOpt.getOptarg () + "\"");
                     break;
                 case ':':
-                    throw new IllegalArgumentException ("Doh! You need an argument for option '" + (char) getOpt.getOptopt() + "'");
+                    System.err.println ("Doh! You need an argument for option '" + (char) getOpt.getOptopt() + "'");
+                    cmdLineError = true;
                 case '?':
-		    if (getOpt.getOptopt() <= 0)
-			    break;
-		    throw new IllegalArgumentException ("The option " + getOpt.getOptopt() + ", '" + (char) getOpt.getOptopt() + "'/'" + getOpt.getOptarg () + "' is not valid");
+                    if (getOpt.getOptopt() <= 0)
+                        break;
+                    System.err.println("The option " + getOpt.getOptopt() + ", '" + (char) getOpt.getOptopt() + "'/'" + getOpt.getOptarg () + "' is not valid");
+                    cmdLineError = true;
+                    break;
                 default:
                     System.out.println ("getopt() returned " + c);
                     break;
             }
         }
-        if (sendOrReceive) {
-            if (contentReader == null)
-                contentReader = new BufferedReader (new InputStreamReader (System.in));
-            while ((contentC = contentReader.read ()) >= 0)
-                content.append ((char) contentC);
-            if (from == null)
-                from = "mark@meadhbh.brokenerror.de";
-            if (subject == null)
-                subject = "You have Mail!";
-            if (to == null)
-                throw new RuntimeException ("Please supply a recipient");
-            for (String rep: to) {
-                System.out.println ("Rescipient: \"" + rep + "\"");
-                if (tlsLevel < 2)
-                    sendMail.sendSmtpAuthAfterStartTls (new String [] {rep}, from, subject, content, htmlMail,
-                                                        (attachment != null) ? new DataSource [] {attachment} : null,
-                                                        config, tlsLevel == 0, debug, key);
-                else
-                    sendMail.sendSmtps (new String [] {rep}, from, subject, content, htmlMail,
-                                        (attachment != null) ? new DataSource [] {attachment} : null,
-                                        config, debug, key);
-            }
-        }
-        else {
-            messages = sendMail.receivePop3s ((user != null) ? user : USERNAME, (password != null) ? password : PASSWORD, config);
-            if (messages.length == 0)
-                System.out.println ("No messages found.");
-
-            for (int i = 0; i < messages.length; i++) {
-                System.out.println ("Message: " + (i + 1));
-                System.out.println ("From: " +      messages [i].getFrom () [0]);
-                System.out.println ("Subject: " +   messages [i].getSubject ());
-                System.out.println ("Sent Date: " + messages [i].getSentDate ());
-                if (messages [i].getContent () instanceof String) {
-                    String messageText = (String) messages [i].getContent ();
-                    if ((key instanceof String) && messageText.startsWith (PGPMAGIG))
-                        System.out.println ("Messagetext: " + sendMail.AES256decrypt (key, messageText));
-                    else
-                        System.out.println ("Messagetext: " + messageText);
+        if (!cmdLineError) {
+            if (sendOrReceive) {
+                if (contentReader == null)
+                    contentReader = new BufferedReader (new InputStreamReader (System.in));
+                while ((contentC = contentReader.read ()) >= 0)
+                    content.append ((char) contentC);
+                if (from == null)
+                    from = "noreply@default.default";
+                if (subject == null)
+                    subject = "You have Mail!";
+                if (to == null)
+                    throw new RuntimeException ("Please supply a recipient");
+                String currentTo = "?";
+                try {
+                    for (String rep : to) {
+                        System.out.println("Recipient: \"" + (currentTo = rep) + "\"");
+                        if (tlsLevel < 2)
+                            sendMail.sendSmtpAuthAfterStartTls(new String[]{rep}, from, subject, content, htmlMail,
+                                    (attachment != null) ? new DataSource[]{attachment} : null,
+                                    config, tlsLevel == 0, debug, strictErrorHandling, key);
+                        else
+                            sendMail.sendSmtps(new String[]{rep}, from, subject, content, htmlMail,
+                                    (attachment != null) ? new DataSource[]{attachment} : null,
+                                    config, debug, strictErrorHandling, key);
+                    }
                 }
-                else
-                    System.out.println ("Multipart message");
-                System.out.println ();
+                catch (MessagingException me) {
+                    if (me.getCause() instanceof UnknownHostException) {
+                        System.err.println("Mail-host: \"" +
+                                ((config != null) ? config.getProperty(TAGMAILHOST) : MAILHOST) + "\" is not known.");
+                    }
+                    else {
+                        System.err.println("Sending the message to: \"" + currentTo + "\" caused an error: \"" + me.getMessage () + "\"");
+                    }
+                }
+            }
+            else {
+                messages = sendMail.receivePop3s ((user != null) ? user : USERNAME, (password != null) ? password : PASSWORD, config);
+                if (messages.length == 0)
+                    System.out.println ("No messages found.");
+
+                for (int i = 0; i < messages.length; i++) {
+                    System.out.println ("Message: " + (i + 1));
+                    System.out.println ("From: " +      messages [i].getFrom () [0]);
+                    System.out.println ("Subject: " +   messages [i].getSubject ());
+                    System.out.println ("Sent Date: " + messages [i].getSentDate ());
+                    if (messages [i].getContent () instanceof String) {
+                        String messageText = (String) messages [i].getContent ();
+                        if ((key != null) && messageText.startsWith (PGPMAGIC))
+                            System.out.println ("Messagetext: " + sendMail.AES256decrypt (key, messageText));
+                        else
+                            System.out.println ("Messagetext: " + messageText);
+                    }
+                    else
+                        System.out.println ("Multipart message");
+                    System.out.println ();
+                }
             }
         }
-
     }
 }
 

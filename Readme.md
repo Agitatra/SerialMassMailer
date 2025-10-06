@@ -78,7 +78,7 @@ CAVEAT: The local part of the recipients may unfortunately not contain internati
 Dependencies are satisfied by the Maven POM, however if manual compilation is required the following libraries have to be provided.
 The application requires the following Java-archives:
 - activation-1.1.1.jar,
-- mail-1.4.1.jar
+- mail-1.6.2.jar
 - java-getopt-1.0.13.jar
 - javax.servlet_3.0.0.v201112011016.jar
 - mail-1.6.2.jar

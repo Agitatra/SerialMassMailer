@@ -1,20 +1,15 @@
 package de.mk_p.serialmassmailer;
 
 import javax.mail.Message;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.MalformedInputException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 import java.util.regex.Matcher;
 
 public class Recipient {
     Message.RecipientType type;
     String address;
-    Map<String, String> properties;
+    Properties properties;
 
     public Message.RecipientType getType () {
         return (type);
@@ -24,13 +19,52 @@ public class Recipient {
         return (address);
     }
 
-    public Map <String, String> getProperties () {
+    public Properties getProperties () {
         return (properties);
     }
 
+    private void readProperties (String propFileName, Properties properties) throws RecipientDataException {
+        String currentPropFileName;
+        if ((propFileName != null) && (propFileName.length() > 0)) {
+            currentPropFileName =
+                    (Util.hasFilenameSuffix (propFileName)) ? propFileName : propFileName + ".properties";
+            try {
+                Properties props = new Properties ();
+                StringBuilder propsString = new StringBuilder();
+                try (BufferedReader br = new BufferedReader (new FileReader (currentPropFileName))) {
+                    for (String line; (line = br.readLine ()) != null; ) {
+                        Matcher includeMatch = Util.INCLUDE_PROPERTY.matcher (line);
+                        if (includeMatch.matches ())
+                            readProperties (currentPropFileName = includeMatch.group (1), properties);
+                        else
+                            propsString.append (line).append ('\n');
+                    }
+                }
+                if (propsString.length () > 0) {
+                    props.load (new StringReader (propsString.toString ()));
+                    for (String key: props.stringPropertyNames ()) {
+                        properties.put (key, props.getProperty (key));
+                    }
+                }
+            }
+            catch (IOException fnfe) {
+                if (fnfe instanceof MalformedInputException)
+                    System.err.println ("Property-file: \"" + currentPropFileName + "\" contains non UTF-8 characters.");
+                else if (fnfe instanceof FileNotFoundException)
+                    System.err.println ("Property-file: \"" + currentPropFileName +
+                            "\" not found. Message wasn't sent to: \"" + address + "\"");
+                else
+                    System.err.println ("Error: \"" + fnfe.getMessage () + "\" reading property file: \"" +
+                            currentPropFileName + "\". Message wasn't sent to: \"" + address + "\"");
+                // Error reading properties, no properties are processed
+                throw new RecipientDataException (getAddress ());
+            }
+        }
+    }
+
     public Recipient (String recipientString) throws RecipientDataException {
-        Matcher addrMatch = Util.RECTYPEPATTERN.matcher(recipientString);
-        properties = new HashMap <> ();
+        Matcher addrMatch = Util.RECTYPEPATTERN.matcher (recipientString);
+        properties = new Properties ();
         if (addrMatch.matches()) {
             String type =         addrMatch.group(1);
             String address =      addrMatch.group(2);
@@ -47,31 +81,7 @@ public class Recipient {
             else
                 this.type = Message.RecipientType.TO;
             this.address = address;
-            if ((propFileName != null) && (propFileName.length() > 0)) {
-                String myPropFileName = (Util.hasFilenameSuffix (propFileName)) ? propFileName
-                                                                                : propFileName + ".properties";
-                try {
-                    Properties props = new Properties ();
-                    props.load (new FileReader (myPropFileName));
-                    Set <String> keys = props.stringPropertyNames ();
-                    for (String key: props.stringPropertyNames ())
-                        properties.put (key, props.getProperty (key));
-                }
-                catch (IOException fnfe) {
-                    if (fnfe instanceof MalformedInputException)
-                        System.err.println ("Property-file: \"" + myPropFileName + "\" contains non UTF-8 characters.");
-                    else if (fnfe instanceof FileNotFoundException)
-                        System.err.println ("Property-file: \"" + myPropFileName +
-                                            "\" not found. Message wasn't sent to: \"" + address + "\"");
-                    else
-                        System.err.println ("Error: \"" + fnfe.getMessage () + "\" reading property file: \"" +
-                                            myPropFileName + "\". Message wasn't sent to: \"" + address + "\"");
-                    // Error reading properties, no properties are processed
-                    throw new RecipientDataException(getAddress());
-                }
-            }
-            else
-                properties = new HashMap <> ();
+            readProperties (propFileName, properties);
             if (name != null)
                 properties.put ("name", name);
             if (firstname != null)

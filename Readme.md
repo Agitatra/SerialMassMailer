@@ -7,6 +7,7 @@ The application takes the following parameters:
 - **-a attachment-file** (see --attachment).
 - **-c java.properties** (see --config).
 - **-d** (see --debug).
+- **-D** (see --dry-run).
 - **-h** (see --html).
 - **-f message-filename** (see --file).
 - **-F sender@address** (see --from).
@@ -25,6 +26,8 @@ Java Properties file containing the mail-server configuration (defaults to appli
 Currently, three properties are supported: "MAILHOST", the name or ip-address of the mail-host, "USER" & "PASSWORD" the username and the password to identify to the mail-server.  The latter two parameters are only relevant for sending messages.
 - **--debug**
 Print debug messages, including the complete SMTP-protocol (defaults to: *false*).
+- **--dry-run**
+Do not actually send e-mails, instead print what would have been sent.
 - **--html**
 The Message is in the HTML-format (defaults to: *false*).
 - **--file=message-filename**
@@ -57,6 +60,9 @@ However, the information provided can also be enriched with additional informati
 - first name,
 - surname,
 - name of a Java property file
+The Recipient-File may contain one or more dirctives:
+- #include = property-filename
+that allows the inclusion of other property files.
 
 The type is used to determine how to send the message.
 First- and surname are stored in the variables "${firstname}" and "${surname}" respectively.
@@ -66,6 +72,8 @@ The variables are replaced before a message is sent, by their respective propert
 Two properties (${firstname} and ${surname}) get their values from the recipient line, the rest has to be stored in a Java properties files whose name is provided as the last parameter of the recipients line.
 For further reference example templates: "mail.txt", "to.txt", "friend.properties", "woman.properties", "madame.properties", "man.properties" and "sir.properties" are part of the project.
 
+CAVEAT: The local part of the recipients may unfortunately not contain international (i.e. UTF-8) characters.
+
 ## Required dependencies
 Dependencies are satisfied by the Maven POM, however if manual compilation is required the following libraries have to be provided.
 The application requires the following Java-archives:
@@ -73,7 +81,7 @@ The application requires the following Java-archives:
 - mail-1.4.1.jar
 - java-getopt-1.0.13.jar
 - javax.servlet_3.0.0.v201112011016.jar
-- mail-1.4.1.jar
+- mail-1.6.2.jar
 - spring-context-4.3.5.RELEASE.jar
 - spring-web-4.3.5.RELEASE.jar
 

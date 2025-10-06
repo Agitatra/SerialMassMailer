@@ -70,22 +70,24 @@ public class EmailWorker {
     private static final String PORT995 = "995";
     private static final String PGPMAGIC = Base64.getEncoder ().encodeToString (new byte[] {(byte) 0x85, (byte) 0x03, (byte) 0x0e, (byte) 0x03});
 
-    public static StringBuilder variableInterpolation (StringBuilder content, Map <String, String> values) {
+    public static StringBuilder variableInterpolation (StringBuilder content, Properties values) {
         if ((values == null) || values.size () <= 0)
             return (content);
         else {
-            StringSubstitutor interpolator = new StringSubstitutor (values);
+            Hashtable<String, String> ht = new Hashtable<>();
+            values.forEach ((key, value) -> ht.put ((String) key, (String) value));
+            StringSubstitutor interpolator = new StringSubstitutor (ht);
             return (new StringBuilder (interpolator.replace (content)));
         }
     }
 
     private static Message addRecipient (Session session, String recipientStr, StringBuilder content, String key,
                                          boolean htmlMail, Multipart multipart) throws MessagingException, RecipientDataException {
-        Recipient recipient = new Recipient(recipientStr);
+        Recipient recipient = new Recipient (recipientStr);
         Message msg = new MimeMessage(session);
         // Create the HTML Part
         BodyPart bodyPart = new MimeBodyPart();
-        content = variableInterpolation(content, recipient.getProperties());
+        content = variableInterpolation (content, recipient.getProperties ());
         if (key != null) {
             try {
                 content = AES256encrypt(key, content);
@@ -96,10 +98,11 @@ public class EmailWorker {
                 System.out.println("Error: \"" + e.getMessage() + "\" encrypting message, sending it unencrypted");
             }
         }
-        bodyPart.setContent(content.toString(), (htmlMail) ? "text/html" : "text/text");
-        multipart.addBodyPart(bodyPart);
-        msg.setContent(multipart);
-        msg.addRecipient(recipient.getType(), new InternetAddress(recipient.getAddress()));
+        bodyPart.setContent (content.toString(), (htmlMail) ? "text/html" : "text/text");
+        multipart.addBodyPart (bodyPart);
+        msg.setContent (multipart);
+        msg.addRecipient (recipient.getType (),
+                          new InternetAddress ((recipient.getAddress () == null) ? "" : recipient.getAddress ()));
         return (msg);
     }
 
@@ -133,12 +136,12 @@ public class EmailWorker {
 
         for (String recipient : recipientAddrs) {
             try {
-                messages.add(createdMultipart(session, recipient, originatorAddr, subject, content, htmlMail, attachments,
-                             debug, key));
+                messages.add (createdMultipart (session, recipient, originatorAddr, subject, content, htmlMail,
+                                                attachments, debug, key));
             }
             catch (RecipientDataException rde) {
                 if (strictErrorHandling)
-                    throw new RecipientDataException (rde.getRecipient());
+                    throw new RecipientDataException(rde.getRecipient());
             }
         }
         return (messages.toArray (new Message[] {}));
@@ -146,7 +149,7 @@ public class EmailWorker {
 
     public void sendSmtpAuthAfterStartTls (String[] recipientAddrs, String originatorAddr, String subject,
                                            StringBuilder content, boolean htmlMail, DataSource[] attachments,
-                                           Properties config, boolean unsecure, boolean debug,
+                                           Properties config, boolean unsecure, boolean debug, boolean dryRun,
                                            boolean strictErrorHandling, String key) throws MessagingException, RecipientDataException {
         Session session;
         Properties props = System.getProperties ();
@@ -183,27 +186,64 @@ public class EmailWorker {
         session = Session.getDefaultInstance (props, auth);
         for (Message msg : createdMultipart (session, recipientAddrs, originatorAddr, subject, content, htmlMail,
                                              attachments, debug, strictErrorHandling, key))
-            try {
-                Transport.send (msg);
+            if (dryRun) {
+                printMessage (msg);
             }
-            catch (MessagingException me) {
-                System.out.print ("Error: \"" + me.getMessage () + "\" sending e-mail to: ");
+            else {
                 try {
-                    for (Address recipient : msg.getAllRecipients ())
-                        System.out.print ("\"" + recipient.toString () + "\"");
+                    Transport.send(msg);
                 }
-                catch (MessagingException e) {
-                    // Error during messaging an error
+                catch (MessagingException me) {
+                    System.out.print("Error: \"" + me.getMessage() + "\" sending e-mail to: ");
+                    try {
+                        for (Address recipient : msg.getAllRecipients())
+                            System.out.print("\"" + recipient.toString() + "\"");
+                    }
+                    catch (MessagingException e) {
+                        // Error during messaging an error
+                    }
+                    System.out.println();
                 }
-                System.out.println ();
             }
     }
 
+    private String stringiseAllRecipients (Message msg) {
+        StringBuilder retVal = new StringBuilder ();
+        try {
+            for (Address recipient : msg.getAllRecipients())
+                retVal.append ('"').append (recipient.toString()).append ('"');
+        } catch (MessagingException e) {
+            // Error during messaging an error
+        }
+        return (retVal.toString());
+    }
+
+    private void printMessage (Message msg) {
+        try {
+            System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+            System.out.println("Simulating a message: \"" + msg.getSubject() + "\" to " + stringiseAllRecipients (msg));
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            try {
+                Multipart multipart = (Multipart) msg.getContent ();
+                for (int i = 0; i < multipart.getCount (); i++) {
+                    BodyPart bodyPart = multipart.getBodyPart (i);
+                    System.out.println ("Message-type: \"" + bodyPart.getContentType () + "\"");
+                    System.out.println ((String) bodyPart.getContent ());
+                }
+            } catch (IOException ioe) {
+                System.err.println ("Error: \"" + ioe.getMessage() + "\"  retrieving message");
+            }
+            System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        }
+        catch (MessagingException me)  {
+                System.err.println ("Error: \"" + me.getMessage() + "\"  retrieving message");
+        }
+    }
 
     public void sendSmtps (String [] recipientAddrs, String originatorAddr, String subject, StringBuilder content,
                            boolean htmlMail, DataSource [] attachments, Properties config,
-                           boolean debug, boolean strictErrorHandling, String key) throws MessagingException, RecipientDataException {
-
+                           boolean debug, boolean dryRun, boolean strictErrorHandling, String key)
+            throws MessagingException, RecipientDataException {
         Session session;
         Properties props = System.getProperties ();
         Transport transport;
@@ -232,23 +272,25 @@ public class EmailWorker {
         }
         session = Session.getInstance (props, null);
         session.setDebug (debug);
-        transport = session.getTransport (SMTPS);
-        transport.connect (myConfig.getProperty (TAGMAILHOST), myConfig.getProperty (TAGUSERNAME), myConfig.getProperty (TAGPASSWORD));
+        if (!dryRun) {
+            transport = session.getTransport(SMTPS);
+            transport.connect (myConfig.getProperty (TAGMAILHOST), myConfig.getProperty (TAGUSERNAME),
+                               myConfig.getProperty (TAGPASSWORD));
+        }
+        else
+            transport = null;
         for (Message msg : createdMultipart (session, recipientAddrs, originatorAddr, subject, content, htmlMail,
                            attachments, debug, strictErrorHandling, key))
-            try {
-                transport.sendMessage (msg, msg.getAllRecipients ());
+            if (dryRun) {
+                printMessage (msg);
             }
-            catch (MessagingException me) {
-                System.out.print ("Error: \"" + me.getMessage () + "sending e-mail to: ");
+            else {
                 try {
-                    for (Address recipient : msg.getAllRecipients ())
-                        System.out.print ("\"" + recipient.toString () + "\"");
+                    transport.sendMessage(msg, msg.getAllRecipients());
                 }
-                catch (MessagingException e) {
-                    // Error during messaging an error
+                catch (MessagingException me) {
+                    System.out.print("Error: \"" + me.getMessage() + "\" sending e-mail to: " + stringiseAllRecipients (msg));
                 }
-                System.out.println ();
             }
     }
 
@@ -359,7 +401,8 @@ public class EmailWorker {
     public static void main (String [] args) throws Exception {
         boolean              cmdLineError =          false;
         boolean              debug =                 false;
-        boolean              strictErrorHandling =  false;
+        boolean              dryRun =                false;
+        boolean              strictErrorHandling =   false;
         boolean              htmlMail =              false;
         boolean              sendOrReceive =         true;
         int                  c;
@@ -382,6 +425,8 @@ public class EmailWorker {
         LongOpt []           longopts =              new LongOpt [] {
                                                          new LongOpt ("debug", LongOpt.NO_ARGUMENT,
                                                                       shortCommand, 'd'),
+                                                         new LongOpt ("dry-run", LongOpt.NO_ARGUMENT,
+                                                                      shortCommand, 'D'),
                                                          new LongOpt ("strict-error-handling", LongOpt.NO_ARGUMENT,
                                                                       shortCommand, 'S'),
                                                          new LongOpt ("to", LongOpt.REQUIRED_ARGUMENT,
@@ -412,7 +457,7 @@ public class EmailWorker {
                                                                       shortCommand, 'u')
         };
         Getopt               getOpt =                new Getopt(EmailWorker.class.getName (),
-                                                                args, "a:u:p:t:c:R:F:f:k:s:T:rhdS", longopts);
+                                                                args, "a:u:p:t:c:R:F:f:k:s:T:rhdDS", longopts);
         getOpt.setOpterr (false); // We'll do our own error handling
 
         for (c = cc = -1; (cc >= 0) || (c = getOpt.getopt ()) != -1;) {
@@ -438,6 +483,9 @@ public class EmailWorker {
                     break;
                 case 'd':
                     debug = true;
+                    break;
+                case 'D':
+                    dryRun = true;
                     break;
                 case 'i':
                     strictErrorHandling = true;
@@ -547,18 +595,21 @@ public class EmailWorker {
                 String currentTo = "?";
                 try {
                     for (String rep : to) {
-                        System.out.println("Recipient: \"" + (currentTo = rep) + "\"");
-                        if (tlsLevel < 2)
-                            sendMail.sendSmtpAuthAfterStartTls(new String[]{rep}, from, subject, content, htmlMail,
-                                    (attachment != null) ? new DataSource[]{attachment} : null,
-                                    config, tlsLevel == 0, debug, strictErrorHandling, key);
-                        else
-                            sendMail.sendSmtps(new String[]{rep}, from, subject, content, htmlMail,
-                                    (attachment != null) ? new DataSource[]{attachment} : null,
-                                    config, debug, strictErrorHandling, key);
+                        if (!Util.COMMENT.matcher(rep).matches()) {
+                            System.out.println("Recipient: \"" + (currentTo = rep) + "\"");
+                            if (tlsLevel < 2)
+                                sendMail.sendSmtpAuthAfterStartTls(new String[]{rep}, from, subject, content, htmlMail,
+                                        (attachment != null) ? new DataSource[]{attachment} : null,
+                                        config, tlsLevel == 0, debug, dryRun, strictErrorHandling, key);
+                            else
+                                sendMail.sendSmtps(new String[]{rep}, from, subject, content, htmlMail,
+                                        (attachment != null) ? new DataSource[]{attachment} : null,
+                                        config, debug, dryRun, strictErrorHandling, key);
+                        }
                     }
                 }
                 catch (MessagingException me) {
+                    me.printStackTrace();
                     if (me.getCause() instanceof UnknownHostException) {
                         System.err.println("Mail-host: \"" +
                                 ((config != null) ? config.getProperty(TAGMAILHOST) : MAILHOST) + "\" is not known.");

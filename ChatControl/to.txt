@@ -1,0 +1,378 @@
+#Bundesregierung
+friedrich.merz@bundestag.de	Friedrich	Merz	bundeskanzler
+poststelle@bmi.bund.de	Alexander	Dobrindt	minister
+poststelle@bmjv.bund.de	Dr. Stefanie	Hubig	ministerin
+info@bmds.bund.de	Karsten	Wildberger	minister
+johann.wadephul@bundestag.de	Dr. Johann David	Wadephul	minister
+dorothee.baer@bundestag.de	Dorothee	Bär	ministerin
+thorsten.frei@bundestag.de	Thorsten	Frei	minister
+alois.rainer@bundestag.de	Alois	Rainer	minister
+patrick.schnieder@bundestag.de	Patrick	Schnieder	minister
+nina.warken@bundestag.de	Nina	Warken	ministerin
+baerbel.bas@bundestag.de	Bärbel	Bas	ministerin
+verena.hubertz@bundestag.de	Verena	Hubertz	ministerin
+lars.klingbeil@bundestag.de	Lars	Klingbeil	minister
+boris.pistorius@bundestag.de	Boris	Pistorius	minister
+reem.alabali-radovan@bundestag.de	Reem	Alabali-Radovan	ministerin
+carsten.schneider@bundestag.de	Carsten	Schneider	minister
+
+#Bundestag CDU/CSU
+knut.abraham@bundestag.de	Knut	Abraham	MdBr
+anna.aeikens@bundestag.de	Anna	Aeikens	MdBe
+stephan.albani@bundestag.de	Stephan	Albani	MdBr
+norbertmaria.altenkamp@bundestag.de	Norbert Maria	Altenkamp	MdBr
+philipp.amthor@bundestag.de	Philipp	Amthor	MdBr
+reza.asghari@bundestag.de	Prof. Dr. Reza	Asghari	MdBr
+tijen.ataolu@bundestag.de	Tijen	Ataolu	MdBe
+artur.auernhammer@bundestag.de	Artur	Auernhammer	MdBr
+peter.aumer@bundestag.de	Peter	Aumer	MdBr
+cornell-anette.babendererde@bundestag.de	Dr. Cornell-Anette	Babendererde	MdBe
+thomas.barei@bundestag.de	Thomas	Barei	MdBr
+guenter.baumgartner@bundestag.de	Günter	Baumgartner	MdBr
+sascha.vanbeek@bundestag.de	Sascha	van Beek	MdBr
+melanie.bernstein@bundestag.de	Melanie	Bernstein	MdBe
+peter.beyer@bundestag.de	Peter	Beyer	MdBr
+marc.biadacz@bundestag.de	Marc	Biadacz	MdBr
+steffen.bilger@bundestag.de	Steffen	Bilger	MdBr
+florian.bilic@bundestag.de	Florian	Bilic	MdBr
+leif-erik.bodin@bundestag.de	Leif-Erik	Bodin	MdBr
+simone.borchardt@bundestag.de	Simone	Borchardt	MdBe
+caroline.bosbach@bundestag.de	Caroline	Bosbach	MdBr
+frederik.bouffier@bundestag.de	Frederik	Bouffier	MdBr
+michael.brand@bundestag.de	Michael	Brand	MdBr
+reinhard.brandl@bundestag.de	Dr. Reinhard	Brandl	MdBr
+silvia.breher@bundestag.de	Silvia	Breher	MdBe
+ralph.brinkhaus@bundestag.de	Ralph	Brinkhaus	MdBr
+lutz.brinkmann@bundestag.de	Lutz	Brinkmann	MdBr
+carsten.brodesser@bundestag.de	Carsten	Brodesser	MdBr
+marlon.broehr@bundestag.de	Marlon	Broehr	MdBr
+benedikt.buedenbender@bundestag.de	Benedikt	Büdenbender	MdBr
+yannick.bury@bundestag.de	Dr. Yannick	Bury	MdBr
+sandra.carstensen@bundestag.de	Sandra	Carstensen	MdBe
+gitta.connemann@bundestag.de	Gitta	Connemann	MdBe
+wolfgang.dahler@bundestag.de	Wolfgang	Dahler	MdBr
+ellen.demuth@bundestag.de	Ellen	Demuth	MdBe
+michael.donth@bundestag.de	Michael	Donth	MdBr
+florian.dorn@bundestag.de	Florian	Dorn	MdBr
+huelya.dueber@bundestag.de	Hülya	Düber	MdBe
+hansjoerg.durz@bundestag.de	Hansjörg	Durz	MdBr
+joachim.ebmeyer@bundestag.de	Joachim	Ebmeyer	MdBr
+ralph.edelhaeusser@bundestag.de	Ralph	Edelhäusser	MdBr
+lars.ehm@bundestag.de	Lars	Ehm	MdBr
+alexander.engelhard@bundestag.de	Alexander	Engelhard	MdBr
+martina.englhardt-kopf@bundestag.de	Martina	Englhardt-Kopf	MdBe
+thomas.erndl@bundestag.de	Thomas	Erndl	MdBr
+bastian.ernst@bundestag.de	Bastian	Ernst	MdBr
+hermann.faerber@bundestag.de	Hermann	Färber	MdBr
+uwe.feiler@bundestag.de	Uwe	Feiler	MdBr
+christoph.frauenprei@bundestag.de	Christoph	Frauenpreiss	MdBr
+michael.frieser@bundestag.de	Michael	Frieser	MdBr
+wilhelm.gebhard@bundestag.de	Wilhelm	Gebhard	MdBr
+thomas.gebhart@bundestag.de	Dr. Thomas	Gebhart	MdBr
+jonas.geissler@bundestag.de	Jonas	Geissler	MdBr
+fabian.gramling@bundestag.de	Fabian	Gramling	MdBr
+adrian.grasse@bundestag.de	Adrian	Grasse	MdBr
+inge.graessle@bundestag.de	Dr. Inge	Grässle	MdBe
+david.gregosz@bundestag.de	David	Gregosz	MdBr
+serap.gueler@bundestag.de	Serap	Güler	MdBe
+georg.guenther@bundestag.de	Georg	Günther	MdBr
+fritz.guentzler@bundestag.de	Fritz	Güntzler	MdBr
+olav.gutting@bundestag.de	Olav	Gutting	MdBr
+christian.haase@bundestag.de	Christian	Haase	MdBr
+florian.hahn@bundestag.de	Florian	Hahn	MdBr
+heiko.hain@bundestag.de	Heiko	Hain	MdBr
+juergen.hardt@bundestag.de	Jürgen	Hardt	MdBr
+matthias.hauer@bundestag.de	Matthias	Hauer	MdBr
+mechthild.heil@bundestag.de	Mechthild	Heil	MdBe
+mark.helfrich@bundestag.de	Mark	Helfrich	MdBr
+marc.henrichmann@bundestag.de	Marc	Henrichmann	MdBr
+diana.herbstreuth@bundestag.de	Diana	Herbstreuth	MdBe
+ansgar.heveling@bundestag.de	Ansgar	Heveling	MdBr
+susanne.hierl@bundestag.de	Susanne	Hierl	MdBe
+matthias.hiller@bundestag.de	Prof. Dr. Matthias	Hiller	MdBr
+christian.hirte@bundestag.de	Christian	Hirte	MdBr
+philipma.hoffmann@bundestag.de	Philip M. A.	Hoffmann	MdBr
+alexander.hoffmann@bundestag.de	Alexander	Hoffmann	MdBr
+hendrik.hoppenstedt@bundestag.de	Dr. Hendrik	Hoppenstedt	MdBr
+franziska.hoppermann@bundestag.de	Franziska	Hoppermann	MdBe
+michael.hose@bundestag.de	Michael	Hose	MdBr
+anne.janssen@bundestag.de	Anne	Janssen	MdBe
+thomas.jarzombek@bundestag.de	Thomas	Jarzombek	MdBr
+alexander.jordan@bundestag.de	Alexander	Jordan	MdBr
+andreas.jung@bundestag.de	Andreas	Jung	MdBr
+nicklas.kappe@bundestag.de	Nicklas	Kappe	MdBr
+anja.karliczek@bundestag.de	Anja	Karliczek	MdBe
+ronja.kemmer@bundestag.de	Ronja	Kemmer	MdBe
+roderich.kiesewetter@bundestag.de	Roderich	Kiesewetter	MdBr
+michael.kieling@bundestag.de	Michael	Kieling	MdBr
+georg.kippels@bundestag.de	Dr. Georg	Kippels	MdBr
+ottilie.klein@bundestag.de	Dr. Ottilie	Klein	MdBe
+julia.kloeckner@bundestag.de	Julia	Kloeckner	MdBe
+axel.knoerig@bundestag.de	Axel	Knoerig	MdBr
+daniel.koelbl@bundestag.de	Daniel	Kölbl	MdBr
+hans.koller@bundestag.de	Hans	Koller	MdBr
+anne.koenig@bundestag.de	Anne	König	MdBe
+markus.koob@bundestag.de	Markus	Koob	MdBr
+stefan.korbach@bundestag.de	Stefan	Korbach	MdBr
+carsten.koerber@bundestag.de	Carsten	Körber	MdBr
+konrad.koerner@bundestag.de	Konrad	Körner	MdBr
+gunther.krichbaum@bundestag.de	Gunther	Krichbaum	MdBr
+lukas.krieger@bundestag.de	Lukas	Krieger	MdBr
+guenter.krings@bundestag.de	Prof. Dr. Günter	Krings	MdBr
+tilman.kuban@bundestag.de	Tilman	Kuban	MdBr
+ulrich.lange@bundestag.de	Ulrich	Lange	MdBr
+armin.laschet@bundestag.de	Armin	Laschet	MdBr
+silke.launert@bundestag.de	Dr. Silke	Launert	MdBe
+jens.lehmann@bundestag.de	Jens	Lehmann	MdBr
+andreas.lenz@bundestag.de	Dr. Andreas	Lenz	MdBr
+andrea.lindholz@bundestag.de	Andrea	Lindholz	MdBe
+carsten.linnemann@bundestag.de	Dr. Carsten	Linnemann	MdBr
+patricia.lips@bundestag.de	Patricia	Lips	MdBe
+jan-marco.luczak@bundestag.de	Dr. Jan-Marco	Luczak	MdBr
+daniela.ludwig@bundestag.de	Daniela	Ludwig	MdBe
+saskia.ludwig@bundestag.de	Dr. Saskia	Ludwig	MdBe
+klaus.mack@bundestag.de	Klaus	Mack	MdBr
+andreas.mattfeldt@bundestag.de	Andreas	Mattfeldt	MdBr
+stephan.mayer@bundestag.de	Stephan	Mayer	MdBr
+volker.mayer-lay@bundestag.de	Volker	Mayer-Lay	MdBr
+michael.meister@bundestag.de	Dr. Michael	Meister	MdBr
+jan.metzler@bundestag.de	Jan	Metzler	MdBr
+mathias.middelberg@bundestag.de	Dr. Mathias	Middelberg	MdBr
+christian.moser@bundestag.de	Christian	Moser	MdBr
+axel.mueller@bundestag.de	Axel	Müller	MdBr
+carsten.mueller@bundestag.de	Carsten	Müller	MdBr
+florian.mueller@bundestag.de	Florian	Müller	MdBr
+sepp.mueller@bundestag.de	Sepp	Müller	MdBr
+stefan.nacke@bundestag.de	Dr. Stefan	Nacke	MdBr
+wilfried.oellers@bundestag.de	Wilfried	Oellers	MdBr
+florian.oest@bundestag.de	Florian	Oest	MdBr
+harald.orthey@bundestag.de	Harald	Orthey	MdBr
+florian.oner@bundestag.de	Florian	Ossner	MdBr
+josef.oster@bundestag.de	Josef	Oster	MdBr
+henning.otte@bundestag.de	Henning	Otte	MdBr
+thomas.pauls@bundestag.de	Dr. Thomas	Pauls	MdBr
+medstephan.pilsinger@bundestag.de	Dr. Stephan	Pilsinger	MdBr
+christoph.plo@bundestag.de	Dr. Christoph	Ploss	MdBr
+martin.plum@bundestag.de	Dr. Martin	Plum	MdBr
+jan-wilhelm.pohlmann@bundestag.de	Jan-Wilhelm	Pohlmann	MdBr
+oliver.poepsel@bundestag.de	Oliver	Pöpsel	MdBr
+david.preisendanz@bundestag.de	Dr. David	Preisendanz	MdBr
+thomas.rachel@bundestag.de	Thomas	Rachel	MdBr
+kerstin.radomski@bundestag.de	Kerstin	Radomski	MdBe
+alexander.radwan@bundestag.de	Alexander	Radwan	MdBr
+pascal.reddig@bundestag.de	Pascal	Reddig	MdBr
+henning.rehbaum@bundestag.de	Henning	Rehbaum	MdBr
+markus.reichel@bundestag.de	Markus	Reichel	MdBr
+lars.rohwer@bundestag.de	Lars	Rohwer	MdBr
+johannes.rothenberger@bundestag.de	Johannes	Rothenberger	MdBr
+norbert.roettgen@bundestag.de	Dr. Norbert	Roettgen	MdBr
+stefan.rouenhoff@bundestag.de	Stefan	Rouenhoff	MdBr
+thomas.roewekamp@bundestag.de	Thomas	Roewekamp	MdBr
+albert.rupprecht@bundestag.de	Albert	Rupprecht	MdBr
+catarina.dossantos@bundestag.de	Catarina	Dos Santos-Wintz	MdBe
+carl-philipp.sassenrath@bundestag.de	Carl-Philipp	Sassenrath	MdBr
+christiane.schenderlein@bundestag.de	Dr. Christiane	Schenderlein	MdBe
+sebastian.schmidt@bundestag.de	Sebastian	Schmidt	MdBr
+henri.schmidt@bundestag.de	Henri	Schmidt	MdBr
+felix.schreiner@bundestag.de	Felix	Schreiner	MdBr
+marvin.schulz@bundestag.de	Marvin	Schulz	MdBr
+detlef.seif@bundestag.de	Detlef	Seif	MdBr
+nora.seitz@bundestag.de	Nora	Seitz	MdBe
+thomas.silberhorn@bundestag.de	Thomas	Silberhorn	MdBr
+bjoern.simon@bundestag.de	Bjoern	Simon	MdBr
+tino.sorge@bundestag.de	Tino	Sorge	MdBr
+jens.spahn@bundestag.de	Jens	Spahn	MdBr
+katrin.staffler@bundestag.de	Katrin	Staffler	MdBe
+albert.stegemann@bundestag.de	Albert	Stegemann	MdBr
+sebastian.steineke@bundestag.de	Sebastian	Steineke	MdBr
+johannes.steiniger@bundestag.de	Johannes	Steiniger	MdBr
+christianfreiherrvon.stetten@bundestag.de	Christian Freiherr von	Stetten	MdBr
+dieter.stier@bundestag.de	Dieter	Stier	MdBr
+stephan.stracke@bundestag.de	Stephan	Stracke	MdBr
+katja.strauss-koester@bundestag.de	Dr. Katja	Strauss-Köster	MdBe
+hendrik.streeck@bundestag.de	Prof. Dr. Hendrik	Streeck	MdBr
+christina.stumpp@bundestag.de	Christina	Stumpp	MdBe
+vivian.tauschwitz@bundestag.de	Vivian	Tauschwitz	MdBe
+roland.theis@bundestag.de	Roland	Theis	MdBr
+profdrhans.theiss@bundestag.de	Prof. Dr. Hans	Theiss	MdBr
+alexander.throm@bundestag.de	Alexander	Throm	MdBr
+astrid.timmermann-fechter@bundestag.de	Astrid	Timmermann-Fechter	MdBe
+kerstin.vieregge@bundestag.de	Kerstin	Vieregge	MdBe
+oliver.vogt@bundestag.de	Dr. Oliver	Vogt	MdBr
+johannes.volkmann@bundestag.de	Johannes	Volkmann	MdBr
+christophde.vries@bundestag.de	Christoph	de Vries	MdBr
+siegfried.walch@bundestag.de	Siegfried	Walch	MdBr
+anja.weisgerber@bundestag.de	Dr. Anja	Weisgerber	MdBe
+maria-lena.weiss@bundestag.de	Dr. Maria-Lena	Weiss	MdBe
+kai.whittaker@bundestag.de	Kai	Whittaker	MdBr
+johannes.wiegelmann@bundestag.de	Johannes	Wiegelmann	MdBr
+klaus.wiener@bundestag.de	Dr. Klaus	Wiener	MdBr
+klaus-peter.willsch@bundestag.de	Klaus-Peter	Willsch	MdBr
+johannes.winkel@bundestag.de	Johannes	Winkel	MdBr
+elisabeth.winkelmeier-becker@bundestag.de	Elisabeth	Winkelmeier-Becker	MdBe
+tobias.winkler@bundestag.de	Tobias	Winkler	MdBr
+mechthilde.wittmann@bundestag.de	Mechthilde	Wittmann	MdBe
+mareikelotte.wulf@bundestag.de	Mareikelotte	Wulf	MdBe
+
+#Bundestag SPD
+sanae.abdi@bundestag.de	Sanae	Abdi	MdBe
+adis.ahmetovic@bundestag.de	Adis	Ahmetovic	MdBr
+daniel.baldy@bundestag.de	Daniel	Baldy	MdBr
+soeren.bartol@bundestag.de	Sören	Bartol	MdBr
+jens.behrens@bundestag.de	Jens	Behrens	MdBr
+daniel.bettermann@bundestag.de	Daniel	Bettermann	MdBr
+jakob.blankenburg@bundestag.de	Jakob	Blankenburg	MdBr
+hendrik.bollmann@bundestag.de	Hendrik	Bollmann	MdBr
+isabel.cademartori@bundestag.de	Isabel	Cademartori	MdBe
+lars.castellucci@bundestag.de	Prof. Dr. Lars	Castellucci	MdBr
+juergen.cosse@bundestag.de	Jürgen	Cosse	MdBr
+hakan.demir@bundestag.de	Hakan	Demir	MdBr
+jan.dieren@bundestag.de	Jan	Dieren	MdBr
+esther.dilcher@bundestag.de	Esther	Dilcher	MdBe
+sabine.dittmar@bundestag.de	Sabine	Dittmar	MdBe
+felix.doering@bundestag.de	Felix	Döring	MdBr
+falko.drossmann@bundestag.de	Falko	Drossmann	MdBr
+sonja.eichwede@bundestag.de	Sonja	Eichwede	MdBe
+wiebke.esdar@bundestag.de	Wiebke	Esdar	MdBe
+saskia.esken@bundestag.de	Saskia	Esken	MdBe
+nancy.faeser@bundestag.de	Nancy	Faeser	MdBe
+johannes.fechner@bundestag.de	Dr. Johannes	Fechner	MdBr
+sebastian.fiedler@bundestag.de	Sebastian	Fiedler	MdBr
+martin.gerster@bundestag.de	Martin	Gerster	MdBr
+angelika.gloeckner@bundestag.de	Angelika	Glöckner	MdBe
+kerstin.griese@bundestag.de	Kerstin	Griese	MdBe
+bettina.hagedorn@bundestag.de	Bettina	Hagedorn	MdBe
+metin.hakverdi@bundestag.de	Metin	Hakverdi	MdBr
+sebastian.hartmann@bundestag.de	Sebastian	Hartmann	MdBr
+hubertus.heil@bundestag.de	Hubertus	Heil	MdBr
+frauke.heiligenstadt@bundestag.de	Frauke	Heiligenstadt	MdBe
+gabriela.heinrich@bundestag.de	Gabriela	Heinrich	MdBe
+nadine.heselhaus@bundestag.de	Nadine	Heselhaus	MdBe
+heike.heubach@bundestag.de	Heike	Heubach	MdBe
+jasmina.hostert@bundestag.de	Jasmina	Hostert	MdBe
+frank.junge@bundestag.de	Frank	Junge	MdBr
+oliver.kaczmarek@bundestag.de	Oliver	Kaczmarek	MdBr
+elisabeth.kaiser@bundestag.de	Elisabeth	Kaiser	MdBe
+macit.karaahmetoglu@bundestag.de	Macit	Karaahmetoğlu	MdBr
+franziska.kersten@bundestag.de	Dr. Franziska	Kersten	MdBe
+helmut.kleebank@bundestag.de	Helmut	Kleebank	MdBr
+annika.klose@bundestag.de	Annika	Klose	MdBe
+tim.kluessendorf@bundestag.de	Tim	Klüssendorf	MdBr
+baerbel.kofler@bundestag.de	Dr. Bärbel	Kofler	MdBe
+anette.kramme@bundestag.de	Anette	Kramme	MdBe
+dunja.kreiser@bundestag.de	Dunja	Kreiser	MdBe
+martin.kroeber@bundestag.de	Martin	Kröber	MdBr
+karl.lauterbach@bundestag.de	Prof. Dr. Karl	Lauterbach	MdBr
+esra.limbacher@bundestag.de	Esra	Limbacher	MdBr
+helge.lindh@bundestag.de	Helge	Lindh	MdBr
+bettina.lugk@bundestag.de	Bettina	Lugk	MdBe
+tanja.machalet@bundestag.de	Dr. Tanja	Machalet	MdBe
+isabel.mackensen-geis@bundestag.de	Isabel	Mackensen-Geis	MdBe
+holger.mann@bundestag.de	Holger	Mann	MdBr
+parsa.marvi@bundestag.de	Parsa	Marvi	MdBr
+katja.mast@bundestag.de	Katja	Mast	MdBe
+kathrin.michel@bundestag.de	Kathrin	Michel	MdBe
+matthias.miersch@bundestag.de	Dr. Matthias	Miersch	MdBr
+matthias.mieves@bundestag.de	Matthias	Mieves	MdBr
+claudia.moll@bundestag.de	Claudia	Moll	MdBe
+siemtje.moeller@bundestag.de	Siemtje	Möller	MdBe
+rolf.muetzenich@bundestag.de	Dr. Rolf	Mützenich	MdBr
+rasha.nasr@bundestag.de	Rasha	Nasr	MdBe
+josephine.ortleb@bundestag.de	Josephine	Ortleb	MdBe
+mahmut.oezdemir@bundestag.de	Mahmut	Özdemir	MdBr
+aydan.oezoğuz@bundestag.de	Aydan	Özoğuz	MdBe
+aydan.oezoguz@bundestag.de	Aydan	Özoğuz	MdBe
+christos.pantazis@bundestag.de	Christos	Pantazis	MdBr
+natalie.pawlik@bundestag.de	Natalie	Pawlik	MdBe
+jens.peick@bundestag.de	Jens	Peick	MdBr
+sabine.poschmann@bundestag.de	Sabine	Poschmann	MdBe
+martin.rabanus@bundestag.de	Martin	Rabanus	MdBr
+truels.reichardt@bundestag.de	Truels	Reichardt	MdBr
+daniel.rinkert@bundestag.de	Daniel	Rinkert	MdBr
+dennis.rohde@bundestag.de	Dennis	Rohde	MdBr
+sebastian.roloff@bundestag.de	Sebastian	Roloff	MdBr
+philipp.rottwilm@bundestag.de	Dr. Philipp	Rottwilm	MdBr
+thorsten.rudolph@bundestag.de	Dr. Thorsten	Rudolph	MdBr
+daniela.rump@bundestag.de	Daniela	Rump	MdBe
+bernd.ruetzel@bundestag.de	Bernd	Rützel	MdBr
+johann.saathoff@bundestag.de	Johann	Saathoff	MdBr
+johannes.schaetzl@bundestag.de	Johannes	Schätzl	MdBr
+nina.scheer@bundestag.de	Dr. Nina	Scheer	MdBe
+christoph.schmid@bundestag.de	Christoph	Schmid	MdBr
+nils.schmid@bundestag.de	Dr. Nils	Schmid	MdBr
+dagmar.schmidt@bundestag.de	Dagmar	Schmidt	MdBe
+uwe.schmidt@bundestag.de	Uwe	Schmidt	MdBr
+olaf.scholz@bundestag.de	Olaf	Scholz	MdBr
+johannes.schraps@bundestag.de	Johannes	Schraps	MdBr
+michael.schrodi@bundestag.de	Michael	Schrodi	MdBr
+svenja.schulze@bundestag.de	Svenja	Schulze	MdBe
+frank.schwabe@bundestag.de	Frank	Schwabe	MdBr
+andreas.schwarz@bundestag.de	Andreas	Schwarz	MdBr
+rita.schwarzeluehr-sutter@bundestag.de	Rita	Schwarzelühr-Sutter	MdBe
+lina.seitzl@bundestag.de	Dr. Lina	Seitzl	MdBe
+svenja.stadler@bundestag.de	Svenja	Stadler	MdBe
+ralf.stegner@bundestag.de	Dr. Ralf	Stegner	MdBr
+ruppert.stuewe@bundestag.de	Ruppert	Stüwe	MdBr
+michael.thews@bundestag.de	Michael	Thews	MdBr
+markus.toens@bundestag.de	Markus	Töns	MdBr
+carsten.traeger@bundestag.de	Carsten	Träger	MdBr
+anja.troff-schaffarzyk@bundestag.de	Anja	Troff-Schaffarzyk	MdBe
+derya.tuerk-nachbaur@bundestag.de	Derya	Türk-Nachbaur	MdBe
+ingo.vogel@bundestag.de	Ingo	Vogel	MdBr
+marja-liisa.voellers@bundestag.de	Marja-Liisa	Völlers	MdBe
+dirk.voepel@bundestag.de	Dirk	Vöpel	MdBr
+carolin.wagner@bundestag.de	Dr. Carolin	Wagner	MdBe
+maja.wallstein@bundestag.de	Maja	Wallstein	MdBe
+daniel.walter@bundestag.de	Daniel	Walter	MdBr
+carmen.wegge@bundestag.de	Carmen	Wegge	MdBe
+dirk.wiese@bundestag.de	Dirk	Wiese	MdBr
+serdar.yueksel@bundestag.de	Serdar	Yueksel	MdBr
+
+#Europaparlament
+alexandra.mehnert@europarl.europa.eu	Alexandra	Mehnert	MdEe
+andrea.wechsler@europarl.europa.eu	Andrea	Wechsler	MdEe
+andreas.schwab@europarl.europa.eu	Andreas	Schwab	MdEr
+angelika.niebler@europarl.europa.eu	Angelika	Niebler	MdEe
+axel.voss@europarl.europa.eu	Axel	Voss	MdEr
+bernd.lange@europarl.europa.eu	Bernd	Lange	MdEr
+birgit.sippel@europarl.europa.eu	Birgit	Sippel	MdEe
+christian.doleschal@europarl.europa.eu	Christian	Doleschal	MdEr
+christian.ehler@europarl.europa.eu	Christian	Ehler	MdEr
+christine.singer@europarl.europa.eu	Christine	Singer	MdEe
+daniel.caspary@europarl.europa.eu	Daniel	Caspary	MdEr
+david.mcallister@europarl.europa.eu	David	Mcallister	MdEr
+dennis.radtke@europarl.europa.eu	Dennis	Radtke	MdEr
+engin.eroglu@europarl.europa.eu	Engin	Eroglu	MdEr
+friedrich.puerner@europarl.europa.eu	Friedrich	Puerner	MdEr
+gabriele.bischoff@europarl.europa.eu	Gabriele	Bischoff	MdEe
+jens.geier@europarl.europa.eu	Jens	Geier	MdEr
+jens.gieseke@europarl.europa.eu	Jens	Gieseke	MdEr
+joachim.streit@europarl.europa.eu	Joachim	Streit	MdEr
+katarina.barley@europarl.europa.eu	Katarina	Barley	MdEe
+lena.duepont@europarl.europa.eu	Lena	Duepont	MdEe
+manfred.weber@europarl.europa.eu	Manfred	Weber	MdEr
+manuela.ripa@europarl.europa.eu	Manuela	Ripa	MdEe
+maria.noichl@europarl.europa.eu	Maria	Noichl	MdEe
+marionerika.walsmann@europarl.europa.eu	Marionerika	Walsmann	MdEe
+martin.gunther@europarl.europa.eu	Martin	Gunther	MdEr
+martin.schirdewan@europarl.europa.eu	Martin	Schirdewan	MdEr
+matthias.ecke@europarl.europa.eu	Matthias	Ecke	MdEr
+michael.gahler@europarl.europa.eu	Michael	Gahler	MdEr
+michael.vonderschulenburg@europarl.europa.eu	Michael	Vonderschulenburg	MdEr
+monika.hohlmeier@europarl.europa.eu	Monika	Hohlmeier	MdEe
+niclas.herbst@europarl.europa.eu	Niclas	Herbst	MdEr
+norbert.lins@europarl.europa.eu	Norbert	Lins	MdEr
+oezlem.demirel@europarl.europa.eu	Özlem	Demirel	MdEe
+oliver.schenk@europarl.europa.eu	Oliver	Schenk	MdEr
+peter.liese@europarl.europa.eu	Peter	Liese	MdEr
+ralf.seekatz@europarl.europa.eu	Ralf	Seekatz	MdEr
+ruth.firmenich@europarl.europa.eu	Ruth	Firmenich	MdEe
+sabine.verheyen@europarl.europa.eu	Sabine	Verheyen	MdEe
+stefan.berger@europarl.europa.eu	Stefan	Berger	MdEr
+stefan.koehler@europarl.europa.eu	Stefan	KÃ¶hler	MdEr
+sven.simon@europarl.europa.eu	Sven	Simon	MdEr
+thomas.geisel@europarl.europa.eu	Thomas	Geisel	MdEr
+tobias.cremer@europarl.europa.eu	Tobias	Cremer	MdEr
+udo.bullmann@europarl.europa.eu	Udo	Bullmann	MdEr
+verena.mertens@europarl.europa.eu	Verena	Mertens	MdEe
+vivien.costanzo@europarl.europa.eu	Vivien	Costanzo	MdEe

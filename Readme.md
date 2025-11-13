@@ -2,6 +2,8 @@
 
 This is a very simple Java-E-Mail Client
 
+It can be easily adopted to address politicians regarding urgent issues (see below).
+
 ## Parameters
 The application takes the following parameters:
 - **-a attachment-file** (see --attachment).
@@ -92,6 +94,10 @@ Normally the project should be compiled by Maven, however, if this is not an opt
 ## Example
 The following example sends a pure text e-mail to the recipients in to.txt using a TLS connection:
 - java -jar serialmassmailer-1.0.0.jar  --recipients-file=to.txt --file=mail.txt --attachment=xmas2020.jpg --from=dm@d-mark.biz --subject="A very special present by Pille & Palle." --config=mailconfig.properties --starttls=1
+
+## Example: Addressing members of the European Parliament regarding "Chat-Control"
+The following example sends an html e-mail, addressing members of the European Parliament regarding "Chat-Control" issues
+- java -jar serialmassmailer-1.0.0.jar --recipients-file=ChatControl/to-ep.txt --file=ChatControl/mail-ep.html --html <--from=dm@d-mark.biz --subject="Chat-Control/II" --config=mailconfig.properties
 
 ### Licenses
 The project is licensed under both the Apache 2 and the MIT license.

@@ -4,7 +4,8 @@ Backup
 javadoc
 mailconfig.properties
 *.jar
-*.txt~
-*.html
+*.*~
 *.jp*g
+*.lst
+\#*#
 .idea

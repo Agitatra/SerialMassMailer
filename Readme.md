@@ -97,7 +97,7 @@ The following example sends a pure text e-mail to the recipients in to.txt using
 
 ## Example: Addressing members of the European Parliament regarding "Chat-Control"
 The following example sends an html e-mail, addressing members of the European Parliament regarding "Chat-Control" issues
-- java -jar serialmassmailer-1.0.0.jar --recipients-file=ChatControl/to-ep.txt --file=ChatControl/mail-ep.html --html <--from=dm@d-mark.biz --subject="Chat-Control/II" --config=mailconfig.properties
+- java -jar serialmassmailer-1.0.0.jar --recipients-file=ChatControl/to-ep.txt --file=ChatControl/mail-ep.html --html --from=dm@d-mark.biz --subject="Chat-Control/II" --config=mailconfig.properties
 
 ### Licenses
 The project is licensed under both the Apache 2 and the MIT license.
